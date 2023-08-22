@@ -8,16 +8,21 @@ function NavBar(props: Props) {
   const {} = props;
 
   return (
-    <nav>
-      <ul>
+    <nav className="bg-blue-400 text-white p-2">
+      <div className="flex justify-between">
+        <ul className="flex gap-2">
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="/users">Users</Link>
+          </li>
+          <li>
+            <Link href="/anime">Anime</Link>
+          </li>
+        </ul>
         <UserButton afterSignOutUrl="/" />
-
-        <li>
-          <Link href="/">Home</Link>
-          <Link href="/users">Users</Link>
-          <Link href="/anime">Anime</Link>
-        </li>
-      </ul>
+      </div>
     </nav>
   );
 }
