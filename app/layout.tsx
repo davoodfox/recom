@@ -23,7 +23,7 @@ export default function RootLayout({
           <SignedIn>
             <NavBar />
           </SignedIn>
-          <div className="mx-4 sm:mx-12 md:mx-32 lg:mx-60 my-2">{children}</div>
+          <div className="mx-0 sm:mx-12 md:mx-32 lg:mx-60 my-2">{children}</div>
         </body>
       </html>
     </ClerkProvider>
