@@ -1,8 +1,8 @@
-import { Anime } from "@tutkli/jikan-ts";
+import { Anime } from '@tutkli/jikan-ts'
 
 function AnimeSearchResults({ anime }: { anime: Anime[] | null }) {
   if (!anime) {
-    return <div>no anime to show</div>;
+    return <div>no anime to show</div>
   }
   return (
     <div className="border border-black absolute my-1 bg-white rounded-sm shadow-sm w-full">
@@ -21,7 +21,7 @@ function AnimeSearchResults({ anime }: { anime: Anime[] | null }) {
         </div>
       ))}
     </div>
-  );
+  )
 }
 
-export default AnimeSearchResults;
+export default AnimeSearchResults

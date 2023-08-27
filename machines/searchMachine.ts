@@ -1,66 +1,66 @@
-import { createMachine } from "xstate";
+import { createMachine } from 'xstate'
 
 const searchMachine = createMachine(
   {
-    id: "search",
+    id: 'search',
     context: {
       timer: null,
-      query: "",
+      query: '',
       results: {},
       error: {},
     },
-    initial: "idle",
+    initial: 'idle',
     states: {
       idle: {
         on: {
-          focus: "focused",
+          focus: 'focused',
         },
       },
       focused: {
         on: {
-          blur: "idle",
-          keyup: "typing",
+          blur: 'idle',
+          keyup: 'typing',
         },
       },
       typing: {
-        entry: ["updateQuery", "clearTimer", "setTimer"],
+        entry: ['updateQuery', 'clearTimer', 'setTimer'],
         on: {
-          keyup: "typing",
-          blur: "idle",
+          keyup: 'typing',
+          blur: 'idle',
           FETCH: {
-            target: "pending",
-            cond: "checkQuery",
+            target: 'pending',
+            cond: 'checkQuery',
           },
         },
       },
       pending: {
-        entry: "goFetch",
+        entry: 'goFetch',
         on: {
-          keyup: "typing",
-          RESOLVE: "resolved",
-          REJECT: "rejected",
-          blur: "idle",
+          keyup: 'typing',
+          RESOLVE: 'resolved',
+          REJECT: 'rejected',
+          blur: 'idle',
         },
       },
       resolved: {
         on: {
-          keyup: "typing",
-          blur: "idle",
+          keyup: 'typing',
+          blur: 'idle',
         },
       },
       rejected: {
         on: {
-          keyup: "typing",
-          blur: "idle",
+          keyup: 'typing',
+          blur: 'idle',
         },
       },
     },
   },
   {
     guards: {
-      checkQuery: (context, event) => context.query != "",
+      checkQuery: (context, event) => context.query != '',
     },
   }
-);
+)
 
-export default searchMachine;
+export default searchMachine

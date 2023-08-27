@@ -1,52 +1,52 @@
-import { createMachine } from "xstate";
+import { createMachine } from 'xstate'
 
 const fetchMachine = createMachine({
-  initial: "idle",
+  initial: 'idle',
   states: {
     idle: {
-      entry: "clear",
+      entry: 'clear',
       on: {
         FETCH: {
-          target: "pending",
+          target: 'pending',
         },
         DENY: {
-          target: "denied",
+          target: 'denied',
         },
       },
     },
     pending: {
-      entry: "goFetch",
+      entry: 'goFetch',
       on: {
         FETCH: {
-          target: "pending",
+          target: 'pending',
         },
         RESOLVE: {
-          target: "resolved",
+          target: 'resolved',
         },
         REJECT: {
-          target: "rejected",
+          target: 'rejected',
         },
       },
     },
     resolved: {
       on: {
         FETCH: {
-          target: "pending",
+          target: 'pending',
         },
         CLEAR: {
-          target: "idle",
+          target: 'idle',
         },
       },
     },
     rejected: {
       on: {
         FETCH: {
-          target: "pending",
+          target: 'pending',
         },
       },
     },
     denied: {},
   },
-});
+})
 
-export default fetchMachine;
+export default fetchMachine

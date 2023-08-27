@@ -1,11 +1,11 @@
-import Link from "next/link";
-import React from "react";
-import { UserButton } from "@clerk/nextjs";
+import Link from 'next/link'
+import React from 'react'
+import { UserButton } from '@clerk/nextjs'
 
 interface Props {}
 
 function NavBar(props: Props) {
-  const {} = props;
+  const {} = props
 
   return (
     <nav className="bg-blue-400 text-white p-2">
@@ -17,14 +17,11 @@ function NavBar(props: Props) {
           <li>
             <Link href="/users">Users</Link>
           </li>
-          <li>
-            <Link href="/anime">Anime</Link>
-          </li>
         </ul>
         <UserButton afterSignOutUrl="/" />
       </div>
     </nav>
-  );
+  )
 }
 
-export default NavBar;
+export default NavBar
