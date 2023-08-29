@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { getAnime } from '@/services/animeServices'
+import { getAnimeSeach } from '@/services'
 import OutsideClickHandler from 'react-outside-click-handler'
 import useFetch from '@/hooks/useFetch'
 import { Anime } from '@tutkli/jikan-ts'
@@ -13,7 +13,7 @@ type Inputs = {
 }
 
 function AnimeSearch() {
-  const animeFetch = useFetch(getAnime)
+  const animeFetch = useFetch(getAnimeSeach)
   const anime: Anime[] | null = animeFetch.data?.data
   const { state: animeState, send: animeSend } = animeFetch
 
