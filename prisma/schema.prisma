@@ -8,25 +8,53 @@ datasource db {
 }
 
 model Recommendation {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  malId Int
-  note String
-  
-  fromClerkId  String 
-  from User   @relation("RecommendationsGiven", fields: [fromClerkId], references: [clerkId])
-  toClerkId    String 
-  to User   @relation("RecommendationsReceived", fields: [toClerkId], references: [clerkId])
+  anime     Anime    @relation("Anime", fields: [animeId], references: [id])
+  animeId   String   @db.ObjectId
+  note      String
+
+  fromUsername String
+  from         User   @relation("RecommendationsGiven", fields: [fromUsername], references: [username])
+  toUsername   String
+  to           User   @relation("RecommendationsReceived", fields: [toUsername], references: [username])
+}
+
+model Anime {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  title            String
+  imageUrl         String
+  synopsis         String
+  aired            String
+  malUrl           String
+  malId            Int
+  recommendations  Recommendation[] @relation("Anime")
+  usersFavoriteIDs String[]         @db.ObjectId
+  usersFavorite    User[]           @relation("Favorites", fields: [usersFavoriteIDs], references: [id])
+  usersWatchedIDs  String[]         @db.ObjectId
+  usersWatched     User[]           @relation("Watched", fields: [usersWatchedIDs], references: [id])
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  clerkId String @unique
   username String @unique
+  imageUrl String
+  clerkId  String @unique
+
   recommendationsReceived Recommendation[] @relation("RecommendationsReceived")
-  recommendationsGiven Recommendation[] @relation("RecommendationsGiven")
+  recommendationsGiven    Recommendation[] @relation("RecommendationsGiven")
+  favoriteIDs             String[]         @db.ObjectId
+  favorites               Anime[]          @relation("Favorites", fields: [favoriteIDs], references: [id])
+  watchedIDs              String[]         @db.ObjectId
+  watched                 Anime[]          @relation("Watched", fields: [watchedIDs], references: [id])
+  followedBy              User[]           @relation("UserFollows", fields: [followedByIDs], references: [id])
+  followedByIDs           String[]         @db.ObjectId
+  following               User[]           @relation("UserFollows", fields: [followingIDs], references: [id])
+  followingIDs            String[]         @db.ObjectId
 }

@@ -1,24 +1,35 @@
-import useFetch from '@/hooks/useFetch'
-import { prisma } from '@/utils/db'
-import { createRecommendation } from '@/services'
-import { Anime } from '@tutkli/jikan-ts'
-import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useAuth } from '@clerk/nextjs'
+import useFetch from "@/hooks/useFetch";
+import { prisma } from "@/utils/db";
+import { createRecommendation } from "@/services";
+import { Anime } from "@tutkli/jikan-ts";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useAuth } from "@clerk/nextjs";
 
 type Inputs = {
-  query: string
-}
+  query: string;
+};
+function AnimeSearchResults({
+  anime,
+  setData,
+}: {
+  anime: Anime[] | null;
+  setData: React.Dispatch<any>;
+}) {
+  const { data, state, send } = useFetch(createRecommendation);
+  const [note, setNote] = useState("");
+  const { userId: fromClerkId } = useAuth();
+  const params = useParams();
+  const toClerkId = params.slug;
 
-function AnimeSearchResults({ anime }: { anime: Anime[] | null }) {
-  const { data, state, send } = useFetch(createRecommendation)
-  const [note, setNote] = useState('')
-  const { userId: fromClerkId } = useAuth()
-  const params = useParams()
-  const toClerkId = params.slug
+  useEffect(() => {
+    if (state.matches("resolved")) {
+      setData(data);
+    }
+  }, [state, data, setData]);
 
   if (!anime) {
-    return <div>no anime to show</div>
+    return <div>no anime to show</div>;
   }
   return (
     <div className="border border-black absolute my-1 bg-white rounded-sm shadow-sm w-full">
@@ -27,7 +38,7 @@ function AnimeSearchResults({ anime }: { anime: Anime[] | null }) {
         id="note"
         value={note}
         onChange={(e) => {
-          setNote(e.target.value)
+          setNote(e.target.value);
         }}
       />
       <p>Select an anime</p>
@@ -37,14 +48,14 @@ function AnimeSearchResults({ anime }: { anime: Anime[] | null }) {
           key={anime.mal_id}
           onClick={(e) => {
             send({
-              type: 'FETCH',
+              type: "FETCH",
               payload: {
                 malId: anime.mal_id,
                 note,
                 fromClerkId: fromClerkId,
                 toClerkId: toClerkId,
               },
-            })
+            });
           }}
         >
           <div className="w-14 h-14 min-w-[3.5rem] flex">
@@ -60,7 +71,7 @@ function AnimeSearchResults({ anime }: { anime: Anime[] | null }) {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
-export default AnimeSearchResults
+export default AnimeSearchResults;

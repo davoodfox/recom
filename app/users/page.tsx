@@ -1,34 +1,38 @@
-import { clerkClient } from '@clerk/nextjs'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+import { prisma } from "@/utils/db";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 interface Props {}
 
 async function Page(props: Props) {
-  const {} = props
-  const users = await clerkClient.users.getUserList()
+  const users = await prisma.user.findMany();
 
   return (
-    <div>
+    <ul>
       {users.map((user) => (
-        <Link
-          key={user.id}
-          href={`/users/${user.id}`}
-          className="flex gap-2 p-2 shadow-[rgba(50,_50,_105,_0.15)_0px_2px_5px_0px,_rgba(0,_0,_0,_0.05)_0px_1px_1px_0px]"
-        >
+        <li key={user.id} className="flex items-center gap-2 p-2 border-b">
           <Image
             src={user.imageUrl}
-            alt={user.username || 'default user'}
+            alt={user.username || "default user"}
             width={50}
             height={50}
-            className="rounded-full object-cover w-14 h-14"
+            className="rounded-full object-cover w-10 h-10"
           />
-          <h2>{user.username}</h2>
-        </Link>
+          <div>
+            <Link href={`/users/${user.id}`}>
+              <h2 className="text-blue-600 underlin hover:no-underline">
+                {user.username}
+              </h2>
+            </Link>
+            <span className="text-gray-400">
+              joined {user.createdAt.toLocaleDateString()}
+            </span>
+          </div>
+        </li>
       ))}
-    </div>
-  )
+    </ul>
+  );
 }
 
-export default Page
+export default Page;

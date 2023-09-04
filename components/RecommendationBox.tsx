@@ -1,49 +1,45 @@
-import { getAnime } from '@/services'
-import { clerkClient } from '@clerk/nextjs'
-import Link from 'next/link'
+"use client";
+import useFetch from "@/hooks/useFetch";
+import { getAnime, getUserByClerkId } from "@/services";
+import { Recommendation, User } from "@prisma/client";
+import { Anime } from "@tutkli/jikan-ts";
+import Link from "next/link";
+import { useEffect } from "react";
 
-async function RecommendationBox({
+function RecommendationBox({
   recommendation,
   host,
+  children,
 }: {
-  recommendation: {
-    id: string
-    createdAt: Date
-    updatedAt: Date
-    malId: number
-    note: string
-    fromClerkId: string
-    toClerkId: string
-  }
-  host: 'given' | 'received'
+  recommendation: Recommendation;
+  host: "given" | "received";
+  children?: React.ReactNode;
 }) {
-  const { data: anime } = await getAnime(recommendation.malId)
-  function whichUser() {
-    if (host == 'given') {
-      return recommendation.toClerkId
-    } else if (host == 'received') {
-      return recommendation.fromClerkId
-    } else {
-      return ''
-    }
-  }
-  const user = await clerkClient.users.getUser(whichUser())
+  const animeFetch = useFetch(getAnime);
+  const anime: Anime = animeFetch.data;
+  const { state: animeState, send: animeSend } = animeFetch;
 
   return (
-    <li className="flex gap-1 items-baseline">
-      <h3 className="text-xl">{anime.title}</h3>
-      <span className="text-gray-800 text-xs">
-        {host == 'given' && 'by'}
-        {host == 'received' && 'from'}
-      </span>
-      <Link
-        href={'/users/' + user.id}
-        className="text-blue-400 hover:text-blue-600"
-      >
-        {user.username}
-      </Link>
-    </li>
-  )
+    <div className="p-2 border border-gray-400 rounded-md relative">
+      {children}
+      <li className="flex gap-1 items-baseline">
+        <h3 className="text-xl">{anime?.title}</h3>
+        <span className="text-gray-800 text-xs">
+          {host == "given" && "to"}
+          {host == "received" && "from"}
+        </span>
+        {/* <Link
+            href={"/users/" + user?.clerkId}
+            className="text-blue-400 hover:text-blue-600"
+          >
+            {user?.username}
+          </Link> */}
+      </li>
+      <div className="p-2 border border-gray-400 rounded-md">
+        <p>note: {recommendation.note}</p>
+      </div>
+    </div>
+  );
 }
 
-export default RecommendationBox
+export default RecommendationBox;

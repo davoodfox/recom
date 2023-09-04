@@ -9,8 +9,11 @@ async function createNewUser() {
       clerkId: user?.id as string,
     },
   });
-  if (!match) {
-    await prisma.user.create({
+  if (match) {
+    await prisma.user.update({
+      where: {
+        clerkId: user?.id as string,
+      },
       data: {
         clerkId: user?.id as string,
         username: user?.username as string,
@@ -23,7 +26,9 @@ async function createNewUser() {
 async function Page() {
   await createNewUser();
   return (
-    <div className="flex items-center justify-center">New user created.</div>
+    <div className="flex items-center justify-center">
+      User updates applied.
+    </div>
   );
 }
 
