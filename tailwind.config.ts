@@ -27,7 +27,10 @@ module.exports = {
       },
       // Modify the default ring color so that it matches the brand color:
       ringColor: {
-        DEFAULT: brandColor["500"],
+        DEFAULT: brandColor["600"],
+      },
+      fontFamily: {
+        sans: ["var(--font-montserrat)"],
       },
     },
   },
