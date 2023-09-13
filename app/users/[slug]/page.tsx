@@ -1,10 +1,7 @@
 import Image from "next/image";
-import RecommendationBox from "@/components/RecommendationBox";
-import { Recommendation } from "@prisma/client";
 import { prisma } from "@/utils/db";
 import { currentUser as getCurrentUser } from "@clerk/nextjs";
 import FollowButton from "@/components/buttons/FollowButton";
-import UnFollowButton from "@/components/buttons/UnFollowButton";
 
 async function Page({ params: { slug } }: { params: { slug: string } }) {
   // const { data, send, setData } = useFetch(getUserByClerkId);

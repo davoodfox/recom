@@ -5,7 +5,6 @@ import { Recommendation, User } from "@prisma/client";
 import { Anime } from "@tutkli/jikan-ts";
 import Link from "next/link";
 import { useEffect } from "react";
-
 function RecommendationBox({
   recommendation,
   host,

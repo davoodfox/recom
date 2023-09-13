@@ -1,17 +1,18 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { Button } from "../ui/Button";
 
 export default function RedirectButton() {
   const router = useRouter();
 
   return (
-    <button
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-4 rounded-md"
+    <Button
+      className="m-2"
       onClick={() => {
         router.push("/user-change");
       }}
     >
       Apply Changes
-    </button>
+    </Button>
   );
 }

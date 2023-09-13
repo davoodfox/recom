@@ -24,8 +24,6 @@ export async function POST(req: Request) {
       (id) => id != body.following
     );
 
-    console.log(followedByIDs);
-
     await prisma.user.update({
       where: { id: body.following },
       data: { followedByIDs: followedByIDs },

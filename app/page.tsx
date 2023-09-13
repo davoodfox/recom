@@ -1,7 +1,8 @@
-import { SignedOut } from '@clerk/nextjs'
-import Link from 'next/link'
+import { Button } from "@/components/ui/Button";
+import { SignedOut, currentUser } from "@clerk/nextjs";
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
   return (
     <main className="flex justify-center items-center mt-52">
       <div className="w-full max-w-[800px] mx-auto">
@@ -15,13 +16,11 @@ export default function Home() {
         <SignedOut>
           <div>
             <Link href="/sign-in">
-              <button className="bg-blue-600 px-4 py-2 rounded-lg text-xl text-white ">
-                Sign In
-              </button>
+              <Button>Sign In</Button>
             </Link>
           </div>
         </SignedOut>
       </div>
     </main>
-  )
+  );
 }

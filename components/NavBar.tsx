@@ -15,6 +15,9 @@ function NavBar(props: Props) {
             <Link href="/">Home</Link>
           </li>
           <li>
+            <Link href="/recommend">Recommend</Link>
+          </li>
+          <li>
             <Link href="/users">Users</Link>
           </li>
           <SignedIn>

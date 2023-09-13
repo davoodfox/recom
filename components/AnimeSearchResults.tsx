@@ -5,71 +5,71 @@ import { Anime } from "@tutkli/jikan-ts";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
+import { Container } from "./ui/Container";
+import { Listbox } from "@headlessui/react";
+import { Button } from "./ui/Button";
+import AnimeBox from "./AnimeBox";
+import { Text } from "./ui/Text";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
+import Divider from "./ui/Divider";
 
 type Inputs = {
   query: string;
 };
-function AnimeSearchResults({
-  anime,
-  setData,
-}: {
-  anime: Anime[] | null;
-  setData: React.Dispatch<any>;
-}) {
+function AnimeSearchResults({ anime }: { anime: Anime[] }) {
   const { data, state, send } = useFetch(createRecommendation);
   const [note, setNote] = useState("");
   const { userId: fromClerkId } = useAuth();
   const params = useParams();
   const toClerkId = params.slug;
 
-  useEffect(() => {
-    if (state.matches("resolved")) {
-      setData(data);
-    }
-  }, [state, data, setData]);
+  const [selectedAnime, setSelectedAnime] = useState<Anime>(anime[0]);
+  const [isOpen, setIsOpen] = useState(true);
 
-  if (!anime) {
-    return <div>no anime to show</div>;
-  }
   return (
-    <div className="border border-black absolute my-1 bg-white rounded-sm shadow-sm w-full">
-      <label htmlFor="note">Write a note:</label>
-      <textarea
-        id="note"
-        value={note}
-        onChange={(e) => {
-          setNote(e.target.value);
-        }}
-      />
-      <p>Select an anime</p>
-      {anime.map((anime) => (
-        <div
-          className="flex border-b border-gray-900 hover:bg-blue-200 cursor-pointer"
-          key={anime.mal_id}
-          onClick={(e) => {
-            send({
-              type: "FETCH",
-              payload: {
-                malId: anime.mal_id,
-                note,
-                fromClerkId: fromClerkId,
-                toClerkId: toClerkId,
-              },
-            });
-          }}
-        >
-          <div className="w-14 h-14 min-w-[3.5rem] flex">
-            <img
-              src={anime.images.jpg.image_url}
-              alt={anime.title}
-              className="flex-grow object-cover"
-            />
+    <div>
+      {isOpen && (
+        <>
+          <Divider className="pb-1">
+            <Text variant="medium/light">
+              <p>Select an Anime</p>
+            </Text>
+          </Divider>
+          <div className="border rounded overflow-hidden">
+            {anime?.map((anime) => (
+              <AnimeBox
+                key={anime.mal_id}
+                anime={anime}
+                onClick={() => {
+                  setSelectedAnime(anime);
+                  setIsOpen(false);
+                }}
+              />
+            ))}
           </div>
-          <h2 className="h-14 p-2 text-xs overflow-hidden text-ellipsis whitespace-nowrap w-full">
-            {anime.title}
-          </h2>
-        </div>
-      ))}
+        </>
+      )}
+      {!isOpen && (
+        <Listbox value={selectedAnime} onChange={setSelectedAnime}>
+          <Divider className="pb-1">
+            <Text variant="medium/light">Selected Anime</Text>
+          </Divider>
+          <Listbox.Button className="w-full border rounded overflow-hidden">
+            {selectedAnime ? (
+              <AnimeBox anime={selectedAnime} key={selectedAnime.mal_id} />
+            ) : (
+              ""
+            )}
+          </Listbox.Button>
+          <Listbox.Options className="border rounded overflow-hidden">
+            {anime?.map((anime) => (
+              <Listbox.Option key={anime.mal_id} value={anime}>
+                <AnimeBox anime={anime} key={anime.mal_id} />
+              </Listbox.Option>
+            ))}
+          </Listbox.Options>
+        </Listbox>
+      )}
     </div>
   );
 }
