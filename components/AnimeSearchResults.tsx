@@ -15,11 +15,18 @@ import Divider from "./ui/Divider";
 import { createAnime } from "@/services/anime";
 import { RecommendationContext } from "@/context/recommendation.context";
 import { Anime } from "@prisma/client";
+import { UseFormReset } from "react-hook-form";
 
 type Inputs = {
   query: string;
 };
-function AnimeSearchResults({ anime }: { anime: MalAnime[] }) {
+function AnimeSearchResults({
+  anime,
+  reset,
+}: {
+  anime: MalAnime[];
+  reset: UseFormReset<{ query: string }>;
+}) {
   const { setRecommendationState } = useContext(RecommendationContext);
 
   const createAnimeFetch = useFetch(createAnime, (res) => {
@@ -65,6 +72,7 @@ function AnimeSearchResults({ anime }: { anime: MalAnime[] }) {
                   });
                   setSelectedAnime(anime);
                   setIsOpen(false);
+                  reset();
                 }}
                 className="hover:bg-blue-200"
               />

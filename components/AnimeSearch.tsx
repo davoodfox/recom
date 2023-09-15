@@ -3,16 +3,9 @@ import { getAnimeSeach } from "@/services";
 import useFetch from "@/hooks/useFetch";
 import { Anime } from "@tutkli/jikan-ts";
 import { object, string } from "zod";
-import { Container } from "@ui/Container";
 import { Form, useZodForm } from "@ui/Form";
-import { SubmitButton } from "@ui/SubmitButton";
 import { Input } from "./ui/Input";
 import AnimeSearchResults from "./AnimeSearchResults";
-import { Listbox } from "@headlessui/react";
-import { useEffect, useState } from "react";
-import { TextArea } from "./ui/TextArea";
-import Divider from "./ui/Divider";
-import { Text } from "./ui/Text";
 import { Loader } from "./AnimeBox";
 
 const InputsSchema = object({
@@ -41,11 +34,19 @@ function AnimeSearch() {
           sharp
           withButton
           buttonLoading={state.matches("pending")}
+          buttonDisabled={
+            typeof form.watch("query") == "string"
+              ? form.watch("query").length == 0
+              : true
+          }
         />
       </Form>
       {state.matches("pending") && <Loader label="Select an Anime" />}
       {state.matches("resolved") && anime && (
-        <AnimeSearchResults anime={anime} />
+        <AnimeSearchResults
+          anime={anime}
+          reset={() => form.reset({ query: "" })}
+        />
       )}
     </div>
   );

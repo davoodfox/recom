@@ -1,11 +1,17 @@
 import { Button, ButtonProps } from "./Button";
 interface Props extends ButtonProps {
   loading?: boolean;
+  disabled?: boolean;
 }
 
-export function SubmitButton({ loading = false, children, ...props }: Props) {
+export function SubmitButton({
+  loading = false,
+  disabled = false,
+  children,
+  ...props
+}: Props) {
   return (
-    <Button type="submit" disabled={loading} {...props}>
+    <Button type="submit" disabled={loading || disabled} {...props}>
       {loading && (
         <svg
           className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

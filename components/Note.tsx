@@ -57,7 +57,14 @@ export default function Note() {
       }}
     >
       <TextArea label="Note" {...form.register("note")} />
-      <SubmitButton loading={state.matches("pending")}>
+      <SubmitButton
+        loading={state.matches("pending")}
+        disabled={
+          recommendationState.animeId == null ||
+          recommendationState.toUsername == null ||
+          recommendationState.fromUsername == null
+        }
+      >
         Add Recommendation
       </SubmitButton>
       <ToastContainer />

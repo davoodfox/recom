@@ -39,6 +39,7 @@ interface Props
   label: string;
   withButton?: boolean;
   buttonLoading?: boolean;
+  buttonDisabled?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, Props>(function Input(
@@ -48,6 +49,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
     type = "text",
     withButton = false,
     buttonLoading,
+    buttonDisabled,
     className,
     ...props
   },
@@ -66,7 +68,7 @@ export const Input = forwardRef<HTMLInputElement, Props>(function Input(
           {...props}
         />
         {withButton && (
-          <SubmitButton sharp loading={buttonLoading}>
+          <SubmitButton sharp loading={buttonLoading} disabled={buttonDisabled}>
             Search
           </SubmitButton>
         )}
