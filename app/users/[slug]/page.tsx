@@ -4,7 +4,6 @@ import { currentUser as getCurrentUser } from "@clerk/nextjs";
 import FollowButton from "@/components/buttons/FollowButton";
 
 async function Page({ params: { slug } }: { params: { slug: string } }) {
-  // const { data, send, setData } = useFetch(getUserByClerkId);
   const user = await prisma.user.findUnique({
     where: { id: slug },
     include: { recommendationsReceived: true },

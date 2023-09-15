@@ -1,13 +1,15 @@
 "use client";
 import { Combobox } from "@headlessui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Text } from "./ui/Text";
 import { User } from "@prisma/client";
 import { ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import Divider from "./ui/Divider";
+import { RecommendationContext } from "@/context/recommendation.context";
 
 export default function ComboBox({ data }: { data: User[] }) {
+  const { setRecommendationState } = useContext(RecommendationContext);
   const [selectedPerson, setSelectedPerson] = useState<User>();
   const [query, setQuery] = useState("");
 
@@ -20,7 +22,16 @@ export default function ComboBox({ data }: { data: User[] }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <Combobox value={selectedPerson} onChange={setSelectedPerson}>
+      <Combobox
+        value={selectedPerson}
+        onChange={(person) => {
+          setRecommendationState((prev) => ({
+            ...prev,
+            toUsername: person.username,
+          }));
+          setSelectedPerson(person);
+        }}
+      >
         <div className="relative">
           <Combobox.Input
             onChange={(event) => setQuery(event.target.value)}

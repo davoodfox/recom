@@ -15,20 +15,20 @@ export async function getAnime(id: number) {
 }
 
 export async function createRecommendation({
-  malId,
+  animeId,
   note,
-  fromClerkId,
-  toClerkId,
+  fromUsername,
+  toUsername,
 }: {
-  malId: number;
+  animeId: string;
   note: string;
-  fromClerkId: string;
-  toClerkId: string;
+  fromUsername: string;
+  toUsername: string;
 }) {
   const res = await fetch(
     new Request(createURL("/api/recommendation"), {
       method: "POST",
-      body: JSON.stringify({ malId, note, fromClerkId, toClerkId }),
+      body: JSON.stringify({ animeId, note, fromUsername, toUsername }),
     })
   );
   if (res.ok) {
@@ -49,7 +49,7 @@ export async function deleteRecommendation(id: string) {
   }
 }
 
-export async function getUserByClerkId(id: string | null) {
+export async function getUser(id: string | null) {
   const res = await fetch(
     new Request(createURL("/api/user?id=" + id), {
       method: "GET",

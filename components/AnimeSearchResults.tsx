@@ -1,29 +1,39 @@
 import useFetch from "@/hooks/useFetch";
 import { prisma } from "@/utils/db";
 import { createRecommendation } from "@/services";
-import { Anime } from "@tutkli/jikan-ts";
+import { Anime as MalAnime } from "@tutkli/jikan-ts";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { Container } from "./ui/Container";
 import { Listbox } from "@headlessui/react";
 import { Button } from "./ui/Button";
-import AnimeBox from "./AnimeBox";
+import AnimeBox, { Loader } from "./AnimeBox";
 import { Text } from "./ui/Text";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import Divider from "./ui/Divider";
+import { createAnime } from "@/services/anime";
+import { RecommendationContext } from "@/context/recommendation.context";
+import { Anime } from "@prisma/client";
 
 type Inputs = {
   query: string;
 };
-function AnimeSearchResults({ anime }: { anime: Anime[] }) {
-  const { data, state, send } = useFetch(createRecommendation);
-  const [note, setNote] = useState("");
-  const { userId: fromClerkId } = useAuth();
-  const params = useParams();
-  const toClerkId = params.slug;
+function AnimeSearchResults({ anime }: { anime: MalAnime[] }) {
+  const { setRecommendationState } = useContext(RecommendationContext);
 
-  const [selectedAnime, setSelectedAnime] = useState<Anime>(anime[0]);
+  const createAnimeFetch = useFetch(createAnime, (res) => {
+    setRecommendationState((prev) => ({
+      ...prev,
+      animeId: res.id,
+    }));
+  });
+  const { state: createAnimeState, send: createAnimeSend } = createAnimeFetch;
+  const { data: createAnimeData }: { data: Anime } = createAnimeFetch;
+
+  const params = useParams();
+
+  const [selectedAnime, setSelectedAnime] = useState<MalAnime>(anime[0]);
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -38,37 +48,48 @@ function AnimeSearchResults({ anime }: { anime: Anime[] }) {
           <div className="border rounded overflow-hidden">
             {anime?.map((anime) => (
               <AnimeBox
-                key={anime.mal_id}
                 anime={anime}
+                key={anime.mal_id}
                 onClick={() => {
+                  createAnimeSend({
+                    type: "FETCH",
+                    payload: {
+                      title: anime.title,
+                      imageUrl: anime.images.jpg.image_url,
+                      synopsis: anime.synopsis,
+                      airing: anime.airing,
+                      year: anime.year,
+                      malUrl: anime.url,
+                      malId: anime.mal_id,
+                    },
+                  });
                   setSelectedAnime(anime);
                   setIsOpen(false);
                 }}
+                className="hover:bg-blue-200"
               />
             ))}
           </div>
         </>
       )}
-      {!isOpen && (
-        <Listbox value={selectedAnime} onChange={setSelectedAnime}>
+      {createAnimeState.matches("pending") && <Loader label="Selected Anime" />}
+      {!isOpen && createAnimeState.matches("resolved") && (
+        <>
           <Divider className="pb-1">
             <Text variant="medium/light">Selected Anime</Text>
           </Divider>
-          <Listbox.Button className="w-full border rounded overflow-hidden">
-            {selectedAnime ? (
-              <AnimeBox anime={selectedAnime} key={selectedAnime.mal_id} />
-            ) : (
-              ""
-            )}
-          </Listbox.Button>
-          <Listbox.Options className="border rounded overflow-hidden">
-            {anime?.map((anime) => (
-              <Listbox.Option key={anime.mal_id} value={anime}>
-                <AnimeBox anime={anime} key={anime.mal_id} />
-              </Listbox.Option>
-            ))}
-          </Listbox.Options>
-        </Listbox>
+          {selectedAnime ? (
+            <div className="w-full border rounded overflow-hidden cursor-default">
+              <AnimeBox
+                anime={selectedAnime}
+                key={selectedAnime.mal_id}
+                className="cursor-default"
+              />
+            </div>
+          ) : (
+            ""
+          )}
+        </>
       )}
     </div>
   );

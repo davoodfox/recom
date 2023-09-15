@@ -28,9 +28,10 @@ model Anime {
   title            String
   imageUrl         String
   synopsis         String
-  aired            String
+  year             Int
+  airing           Boolean
   malUrl           String
-  malId            Int
+  malId            Int              @unique
   recommendations  Recommendation[] @relation("Anime")
   usersFavoriteIDs String[]         @db.ObjectId
   usersFavorite    User[]           @relation("Favorites", fields: [usersFavoriteIDs], references: [id])

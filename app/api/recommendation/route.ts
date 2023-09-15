@@ -8,7 +8,7 @@ export async function POST(req: Request) {
       data: body,
     });
     const user = await prisma.user.findUnique({
-      where: { clerkId: body.toClerkId },
+      where: { username: body.toUsername },
       include: {
         recommendationsReceived: { orderBy: { createdAt: "desc" } },
       },

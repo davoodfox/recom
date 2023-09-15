@@ -2,7 +2,10 @@ import fetchMachine from "@/machines/fetchMachine";
 import { useMachine } from "@xstate/react";
 import { useState } from "react";
 
-export default function useFetch(service = (p: any): any => {}) {
+export default function useFetch(
+  service = (p: any): any => {},
+  cb = (p: any): any => {}
+) {
   var [data, setData] = useState<any>();
   var [state, send] = useMachine(fetchMachine, {
     actions: {
@@ -11,6 +14,7 @@ export default function useFetch(service = (p: any): any => {}) {
           const res = await service(event.payload);
           setData(res.data);
           send("RESOLVE");
+          cb(res.data);
         } catch (error) {
           send("REJECT");
           console.error(error);

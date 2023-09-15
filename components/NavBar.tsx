@@ -10,7 +10,7 @@ function NavBar(props: Props) {
   return (
     <nav className="bg-blue-400 text-white p-2">
       <div className="flex justify-between">
-        <ul className="flex gap-2">
+        <ul className="flex gap-2 items-center">
           <li>
             <Link href="/">Home</Link>
           </li>

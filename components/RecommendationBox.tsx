@@ -1,11 +1,12 @@
-"use client";
 import useFetch from "@/hooks/useFetch";
-import { getAnime, getUserByClerkId } from "@/services";
+import { getAnime } from "@/services";
+import { prisma } from "@/utils/db";
 import { Recommendation, User } from "@prisma/client";
 import { Anime } from "@tutkli/jikan-ts";
 import Link from "next/link";
 import { useEffect } from "react";
-function RecommendationBox({
+
+async function RecommendationBox({
   recommendation,
   host,
   children,
@@ -14,9 +15,9 @@ function RecommendationBox({
   host: "given" | "received";
   children?: React.ReactNode;
 }) {
-  const animeFetch = useFetch(getAnime);
-  const anime: Anime = animeFetch.data;
-  const { state: animeState, send: animeSend } = animeFetch;
+  const anime = await prisma.anime.findUnique({
+    where: { id: recommendation.animeId },
+  });
 
   return (
     <div className="p-2 border border-gray-400 rounded-md relative">
@@ -27,12 +28,12 @@ function RecommendationBox({
           {host == "given" && "to"}
           {host == "received" && "from"}
         </span>
-        {/* <Link
-            href={"/users/" + user?.clerkId}
-            className="text-blue-400 hover:text-blue-600"
-          >
-            {user?.username}
-          </Link> */}
+        <Link
+          href={"/users/" + recommendation.toUsername}
+          className="text-blue-400 hover:text-blue-600"
+        >
+          {recommendation.toUsername}
+        </Link>
       </li>
       <div className="p-2 border border-gray-400 rounded-md">
         <p>note: {recommendation.note}</p>

@@ -1,6 +1,5 @@
 import RecommendationActions from "@/components/RecommendationActions";
 import RecommendationBox from "@/components/RecommendationBox";
-import { getUserByClerkId } from "@/services";
 import { prisma } from "@/utils/db";
 import { auth } from "@clerk/nextjs";
 import Image from "next/image";

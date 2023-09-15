@@ -1,6 +1,5 @@
 import { prisma } from "@/utils/db";
 import AnimeSearchResults from "./AnimeSearchResults";
-import { getUserByClerkId } from "@/services";
 import { auth } from "@clerk/nextjs";
 import ComboBox from "./ComboBox";
 import { Text } from "./ui/Text";
