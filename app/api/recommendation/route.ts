@@ -1,5 +1,6 @@
 import { prisma } from "@/utils/db";
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: Request) {
   try {
@@ -13,6 +14,7 @@ export async function POST(req: Request) {
         recommendationsReceived: { orderBy: { createdAt: "desc" } },
       },
     });
+    revalidatePath("/dashboard");
     return NextResponse.json({
       data: user,
       message: "Created new entry",
