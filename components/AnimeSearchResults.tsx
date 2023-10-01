@@ -1,16 +1,9 @@
 import useFetch from "@/hooks/useFetch";
-import { prisma } from "@/utils/db";
-import { createRecommendation } from "@/services";
 import { Anime as MalAnime } from "@tutkli/jikan-ts";
 import { useParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import { useAuth } from "@clerk/nextjs";
-import { Container } from "./ui/Container";
-import { Listbox } from "@headlessui/react";
-import { Button } from "./ui/Button";
 import AnimeBox, { Loader } from "./AnimeBox";
 import { Text } from "./ui/Text";
-import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import Divider from "./ui/Divider";
 import { createAnime } from "@/services/anime";
 import { RecommendationContext } from "@/context/recommendation.context";

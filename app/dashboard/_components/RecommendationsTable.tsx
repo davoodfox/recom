@@ -1,4 +1,4 @@
-import RecommendationRow from "@/components/RecommendationRow";
+import RecommendationRow from "./RecommendationRow";
 import { prisma } from "@/utils/db";
 import { auth } from "@clerk/nextjs";
 

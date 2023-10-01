@@ -37,18 +37,6 @@ export async function createRecommendation({
   }
 }
 
-export async function deleteRecommendation(id: string) {
-  const res = await fetch(
-    new Request(createURL("/api/recommendation?id=" + id), {
-      method: "DELETE",
-    })
-  );
-  if (res.ok) {
-    const data = await res.json();
-    return data;
-  }
-}
-
 export async function getUser(id: string | null) {
   const res = await fetch(
     new Request(createURL("/api/user?id=" + id), {

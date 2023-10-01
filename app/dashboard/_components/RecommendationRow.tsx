@@ -1,11 +1,6 @@
-import useFetch from "@/hooks/useFetch";
-import { getAnime } from "@/services";
 import { prisma } from "@/utils/db";
 import { Recommendation, User } from "@prisma/client";
-import { Anime } from "@tutkli/jikan-ts";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 import RecommendationActions from "./RecommendationActions";
 
 async function RecommendationRow({
