@@ -24,7 +24,6 @@ export default function FollowButton({
     return (
       <Button
         intent="primary"
-        rounded
         onClick={() => {
           send({ type: "FETCH", payload: { following, followedBy } });
           setMode("unfollow");
@@ -40,7 +39,6 @@ export default function FollowButton({
     return (
       <Button
         intent="danger"
-        rounded
         onClick={() => {
           send({ type: "FETCH", payload: { following, followedBy } });
           setMode("follow");
