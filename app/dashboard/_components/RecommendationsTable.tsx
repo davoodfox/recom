@@ -14,8 +14,10 @@ export default async function RecommendationsTable({
       clerkId: userId as string,
     },
     include: {
-      recommendationsGiven: host == "given" ? true : false,
-      recommendationsReceived: host == "received" ? true : false,
+      recommendationsGiven:
+        host == "given" ? { orderBy: { updatedAt: "desc" } } : false,
+      recommendationsReceived:
+        host == "received" ? { orderBy: { updatedAt: "desc" } } : false,
     },
   });
 
@@ -37,8 +39,12 @@ export default async function RecommendationsTable({
     }
   })();
 
+  if (data.length == 0) {
+    return <></>;
+  }
+
   return (
-    <div>
+    <div className="overflow-auto">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>

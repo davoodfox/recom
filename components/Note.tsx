@@ -14,60 +14,24 @@ const InputsSchema = object({
 });
 
 export default function Note() {
-  const { recommendationState } = useContext(RecommendationContext);
-  const { send, state } = useFetch(createRecommendation);
+  const { setRecommendationState } = useContext(RecommendationContext);
 
   const form = useZodForm({
     schema: InputsSchema,
   });
 
-  useEffect(() => {
-    if (state.matches("resolved")) {
-      toast("Added Recommendation!", {
-        hideProgressBar: true,
-        type: "success",
-        position: "bottom-center",
-      });
-    }
-  }, [state]);
-
   return (
-    <Form
-      form={form}
-      onSubmit={async ({ note }) => {
-        if (recommendationState.animeId == null) {
-          toast("Please select an anime!", {
-            hideProgressBar: true,
-            type: "error",
-            position: "bottom-center",
-          });
-        }
-        if (recommendationState.toUsername == null) {
-          toast("Please select a user!", {
-            hideProgressBar: true,
-            type: "error",
-            position: "bottom-center",
-          });
-          return;
-        }
-        send({
-          type: "FETCH",
-          payload: { ...recommendationState, note: note },
-        });
-      }}
-    >
-      <TextArea label="Note" {...form.register("note")} />
-      <SubmitButton
-        loading={state.matches("pending")}
-        disabled={
-          recommendationState.animeId == null ||
-          recommendationState.toUsername == null ||
-          recommendationState.fromUsername == null
-        }
-      >
-        Add Recommendation
-      </SubmitButton>
-      <ToastContainer />
+    <Form form={form} onSubmit={() => {}}>
+      <TextArea
+        label="Note"
+        {...form.register("note")}
+        onChange={(e) => {
+          setRecommendationState((prev) => ({
+            ...prev,
+            note: e.target.value,
+          }));
+        }}
+      />
     </Form>
   );
 }

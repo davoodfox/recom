@@ -10,7 +10,7 @@ import { RecommendationContext } from "@/context/recommendation.context";
 
 export default function ComboBox({ data }: { data: User[] }) {
   const { setRecommendationState } = useContext(RecommendationContext);
-  const [selectedPerson, setSelectedPerson] = useState<User>();
+  const [selectedPerson, setSelectedPerson] = useState<User | "">("");
   const [query, setQuery] = useState("");
 
   const filteredPeople =
@@ -27,7 +27,7 @@ export default function ComboBox({ data }: { data: User[] }) {
         onChange={(person) => {
           setRecommendationState((prev) => ({
             ...prev,
-            toUsername: person.username,
+            toUsername: person && person.username,
           }));
           setSelectedPerson(person);
         }}
