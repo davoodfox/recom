@@ -1,10 +1,7 @@
-import { getMalAnime } from "@/actions/malAnime";
-import { createRecommendation } from "@/actions/recommendations";
-import AnimeSearch from "@/components/AnimeSearch";
-import Note from "@/components/Note";
-import UserSearch from "@/components/UserSearch";
+import AnimeSearch from "./_components/AnimeSearch";
+import Note from "./_components/Note";
+import UserSearch from "./_components/UserSearch";
 import { Container } from "@/components/ui/Container";
-import { Input } from "@/components/ui/v2/Input";
 import { RecommendationContextProvider } from "@/context/recommendation.context";
 import { currentUser } from "@clerk/nextjs";
 import FormAction from "./_components/FormAction";
