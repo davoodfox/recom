@@ -26,7 +26,7 @@ async function Page(props: Props) {
               </h2>
             </Link>
             <span className="text-gray-400">
-              joined {user.createdAt.toLocaleDateString()}
+              joined {user.createdAt.toDateString()}
             </span>
           </div>
         </li>

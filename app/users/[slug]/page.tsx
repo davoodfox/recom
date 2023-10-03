@@ -51,7 +51,7 @@ async function Page({ params: { slug } }: { params: { slug: string } }) {
             <div>
               <h2 className="text-2xl">{user.username}</h2>
               <span className="text-gray-400">
-                joined {user.createdAt.toLocaleDateString()}
+                joined {user.createdAt.toDateString()}
               </span>
             </div>
             {isUserCurrentUser() ? (
