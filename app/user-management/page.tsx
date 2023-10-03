@@ -1,24 +1,27 @@
 import RedirectButton from "@/components/buttons/RedirectButton";
+import { Text } from "@/components/ui/Text";
 import { UserProfile } from "@clerk/nextjs";
+import Link from "next/link";
 
 function Page() {
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col items-end shadow-2xl">
-        <div>
-          <UserProfile
-            appearance={{
-              elements: {
-                card: {
-                  background: "white",
-                  boxShadow: "none",
-                },
-              },
-            }}
-          />
-        </div>
-        <RedirectButton />
-      </div>
+    <div className="shadow-xl p-4 rounded-md">
+      <ul>
+        <li>
+          <Text variant="medium/normal">
+            <Link href="/user-management/account" className="text-brand-600">
+              Account
+            </Link>
+          </Text>
+        </li>
+        <li>
+          <Text variant="medium/normal">
+            <Link href="/user-management/security" className="text-brand-600">
+              Security
+            </Link>
+          </Text>
+        </li>
+      </ul>
     </div>
   );
 }

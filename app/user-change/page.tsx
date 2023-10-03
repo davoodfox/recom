@@ -1,6 +1,6 @@
 import { prisma } from "@/utils/db";
 import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import Refresh from "./Refresh";
 
 async function createNewUser() {
   const user = await currentUser();
@@ -28,6 +28,7 @@ async function Page() {
   return (
     <div className="flex items-center justify-center">
       User updates applied.
+      <Refresh />
     </div>
   );
 }
