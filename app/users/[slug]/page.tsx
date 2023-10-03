@@ -5,7 +5,7 @@ import FollowButton from "@/components/buttons/FollowButton";
 
 async function Page({ params: { slug } }: { params: { slug: string } }) {
   const user = await prisma.user.findUnique({
-    where: { id: slug },
+    where: { username: slug },
     include: { recommendationsReceived: true },
   });
   const currentClerkUser = await getCurrentUser();
@@ -28,10 +28,6 @@ async function Page({ params: { slug } }: { params: { slug: string } }) {
       return false;
     }
   }
-
-  // useEffect(() => {
-  //   send({ type: "FETCH", payload: slug });currentUser
-  // }, []);
 
   if (!user || !currentUser) {
     <div>No such user.</div>;
@@ -69,26 +65,8 @@ async function Page({ params: { slug } }: { params: { slug: string } }) {
                 followedBy={currentUser.id}
               />
             )}
-
-            {/* <AnimeSearch setData={setData} /> */}
           </div>
         </div>
-        {/* <div className="mt-4">
-          <div>
-            <h3>Recommendations Received:</h3>
-            <ul>
-              {user.recommendationsReceived.map(
-                (recommendation: Recommendation) => (
-                  <RecommendationBox
-                    key={recommendation.id}
-                    recommendation={recommendation}
-                    host="received"
-                  />
-                )
-              )}
-            </ul>
-          </div>
-        </div> */}
       </div>
     );
 }

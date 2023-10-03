@@ -20,7 +20,7 @@ async function Page(props: Props) {
             className="rounded-full object-cover w-10 h-10"
           />
           <div>
-            <Link href={`/users/${user.id}`}>
+            <Link href={`/users/${user.username}`}>
               <h2 className="text-blue-600 underlin hover:no-underline">
                 {user.username}
               </h2>
