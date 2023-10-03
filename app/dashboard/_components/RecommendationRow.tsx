@@ -6,13 +6,24 @@ import RecommendationActions from "./RecommendationActions";
 async function RecommendationRow({
   recommendation,
   index,
+  host,
 }: {
   recommendation: Recommendation;
   index: number;
+  host: "given" | "received";
 }) {
   const anime = await prisma.anime.findUnique({
     where: { id: recommendation.animeId },
   });
+
+  const prepositionTarget = (function () {
+    switch (host) {
+      case "given":
+        return recommendation.toUsername;
+      case "received":
+        return recommendation.fromUsername;
+    }
+  })();
 
   return (
     <tr
@@ -25,10 +36,10 @@ async function RecommendationRow({
       <td className="px-6 py-3">{anime?.title}</td>
       <td className="px-6 py-3">
         <Link
-          href={"/users/" + recommendation.toUsername}
+          href={"/users/" + prepositionTarget}
           className="text-blue-400 hover:text-brand-600"
         >
-          {recommendation.toUsername}
+          {prepositionTarget}
         </Link>
       </td>
       <td className="px-6 py-3">{recommendation.note}</td>

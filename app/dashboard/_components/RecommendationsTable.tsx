@@ -68,6 +68,7 @@ export default async function RecommendationsTable({
               key={recommendation.id}
               recommendation={recommendation}
               index={index}
+              host={host}
             />
           ))}
         </tbody>
