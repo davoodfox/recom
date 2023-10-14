@@ -2,6 +2,8 @@ import Link from "next/link";
 import React from "react";
 import { SignedIn, UserButton, currentUser } from "@clerk/nextjs";
 import { prisma } from "@/utils/db";
+import Image from "next/image";
+import Icon from "@/public/logo.svg";
 
 interface Props {}
 
@@ -11,9 +13,17 @@ async function NavBar(props: Props) {
   const user = await prisma.user.findUnique({ where: { clerkId: cu?.id } });
 
   return (
-    <nav className="bg-blue-400 text-white p-2">
-      <div className="flex justify-between">
+    <nav className=" text-black font-semibold p-2">
+      <div className="flex justify-between items-center">
         <ul className="flex gap-2 items-center">
+          <Image
+            priority
+            src={Icon}
+            alt=""
+            width={100}
+            height={100}
+            className="mr-2"
+          />
           <li>
             <Link href="/">Home</Link>
           </li>
@@ -29,24 +39,28 @@ async function NavBar(props: Props) {
             </li>
           </SignedIn>
         </ul>
-        <UserButton
-          afterSignOutUrl="/"
-          userProfileMode="navigation"
-          userProfileUrl="/user-management"
-          appearance={{
-            elements: {
-              avatarImage: {
-                display: "none",
+        <div className="mx-6 ">
+          <UserButton
+            afterSignOutUrl="/"
+            userProfileMode="navigation"
+            userProfileUrl="/user-management"
+            appearance={{
+              elements: {
+                avatarImage: {
+                  display: "none",
+                },
+                avatarBox: {
+                  backgroundImage: `url(${user?.imageUrl})`,
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center center",
+                  width: "50px",
+                  height: "50px",
+                },
               },
-              avatarBox: {
-                backgroundImage: `url(${user?.imageUrl})`,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center center",
-              },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
     </nav>
   );

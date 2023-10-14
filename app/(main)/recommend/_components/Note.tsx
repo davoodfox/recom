@@ -1,7 +1,7 @@
 "use client";
 import { object, string } from "zod";
-import { Form, useZodForm } from "../../../components/ui/Form";
-import { TextArea } from "../../../components/ui/TextArea";
+import { Form, useZodForm } from "@/components/ui/Form";
+import { TextArea } from "@/components/ui/TextArea";
 import { RecommendationContext } from "@/context/recommendation.context";
 import { useContext } from "react";
 

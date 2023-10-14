@@ -17,7 +17,6 @@
     "@prisma/client": "^5.2.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.6",
-    "@tailwindcss/typography": "^0.5.9",
     "@tutkli/jikan-ts": "^1.0.1",
     "@types/node": "20.5.2",
     "@types/react": "18.2.20",

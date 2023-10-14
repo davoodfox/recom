@@ -1,3 +1,5 @@
+/** @type {import('tailwindcss').Config} */
+
 const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 
@@ -40,5 +42,6 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("@tailwindcss/aspect-ratio"),
     require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
   ],
 };

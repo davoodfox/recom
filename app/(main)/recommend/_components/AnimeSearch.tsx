@@ -4,9 +4,9 @@ import useFetch from "@/hooks/useFetch";
 import { Anime } from "@tutkli/jikan-ts";
 import { object, string } from "zod";
 import { Form, useZodForm } from "@ui/Form";
-import { Input } from "../../../components/ui/Input";
-import AnimeSearchResults from "../../../components/AnimeSearchResults";
-import { Loader } from "../../../components/AnimeBox";
+import { Input } from "@/components/ui/Input";
+import AnimeSearchResults from "@/components/AnimeSearchResults";
+import { Loader } from "@/components/AnimeBox";
 
 const InputsSchema = object({
   query: string(),

@@ -1,7 +1,7 @@
 import { prisma } from "@/utils/db";
 import { auth } from "@clerk/nextjs";
-import ComboBox from "../../../components/ComboBox";
-import { Text } from "../../../components/ui/Text";
+import ComboBox from "@/components/ComboBox";
+import { Text } from "@/components/ui/Text";
 
 async function UserSearch() {
   const { userId }: { userId: string | null } = auth();

@@ -1,5 +1,5 @@
 import { deleteRecommendation } from "@/actions/recommendations";
-import { SubmitButton } from "../../../components/ui/SubmitButton";
+import { SubmitButton } from "../../../../components/ui/SubmitButton";
 
 export default function RecommendationActions({ id }: { id: string }) {
   return (

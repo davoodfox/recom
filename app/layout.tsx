@@ -23,11 +23,14 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+        <head>
+          <link rel="icon" href="/favicon.ico" sizes="any" />
+        </head>
         <body className={`${montserrat.variable} font-sans`}>
           <SignedIn>
             <NavBar />
           </SignedIn>
-          <div className="mx-0 sm:mx-12 md:mx-32 lg:mx-60 my-2">{children}</div>
+          {children}
         </body>
       </html>
     </ClerkProvider>
