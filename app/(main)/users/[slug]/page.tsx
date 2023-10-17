@@ -2,7 +2,7 @@ import Image from "next/image";
 import { prisma } from "@/utils/db";
 import { currentUser as getCurrentUser } from "@clerk/nextjs";
 import FollowButton from "@/components/buttons/FollowButton";
-import { addFollowing } from "@/actions/user";
+import { addFollowing, removeFollowing } from "@/actions/user";
 import { SubmitButton } from "@/components/ui/SubmitButton";
 
 async function Page({ params: { slug } }: { params: { slug: string } }) {
@@ -55,11 +55,11 @@ async function Page({ params: { slug } }: { params: { slug: string } }) {
             {isUserCurrentUser() ? (
               <></>
             ) : isFollowing() ? (
-              <FollowButton
-                mode="unfollow"
-                following={user.id}
-                followedBy={currentUser.id}
-              />
+              <form action={removeFollowing}>
+                <input type="hidden" name="following" value={user.id} />
+                <input type="hidden" name="followedBy" value={currentUser.id} />
+                <SubmitButton intent="danger">Unfollow</SubmitButton>
+              </form>
             ) : (
               <form action={addFollowing}>
                 <input type="hidden" name="following" value={user.id} />

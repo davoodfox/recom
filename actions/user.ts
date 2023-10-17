@@ -7,12 +7,10 @@ import { z } from "zod";
 export async function addFollowing(formData: FormData) {
   const following = formData.get("following");
   const followedBy = formData.get("followedBy");
-
   const schema = z.object({
     following: z.string().nonempty(),
     followedBy: z.string().nonempty(),
   });
-
   const data = schema.parse({
     following: following,
     followedBy: followedBy,
@@ -27,6 +25,13 @@ export async function addFollowing(formData: FormData) {
       where: { id: data.following },
       data: { followedByIDs: { push: data.followedBy } },
     });
+
+    revalidatePath("/users/[slug]");
+
+    return NextResponse.json({
+      message: "Following added.",
+      success: true,
+    });
   } catch (err) {
     return NextResponse.json({
       error: "Failed to add following': " + err,
@@ -38,12 +43,10 @@ export async function addFollowing(formData: FormData) {
 export async function removeFollowing(formData: FormData) {
   const following = formData.get("following");
   const followedBy = formData.get("followedBy");
-
   const schema = z.object({
     following: z.string().nonempty(),
     followedBy: z.string().nonempty(),
   });
-
   const data = schema.parse({
     following: following,
     followedBy: followedBy,
@@ -79,6 +82,8 @@ export async function removeFollowing(formData: FormData) {
       where: { id: data.followedBy },
       data: { followingIDs: followingIDs },
     });
+
+    revalidatePath("/users/[slug]");
 
     return NextResponse.json({
       message: "Following removed.",
