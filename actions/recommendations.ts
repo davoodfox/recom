@@ -29,15 +29,15 @@ export async function createRecommendation(formData: FormData) {
       data: data,
     });
     revalidatePath("/dashboard");
-    return {
+    return NextResponse.json({
       message: "Created new recommendation",
       success: true,
-    };
+    });
   } catch (err) {
-    return {
+    return NextResponse.json({
       error: "Failed to create recommendation': " + err,
       status: 400,
-    };
+    });
   }
 }
 

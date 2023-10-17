@@ -2,6 +2,8 @@ import Image from "next/image";
 import { prisma } from "@/utils/db";
 import { currentUser as getCurrentUser } from "@clerk/nextjs";
 import FollowButton from "@/components/buttons/FollowButton";
+import { addFollowing } from "@/actions/user";
+import { SubmitButton } from "@/components/ui/SubmitButton";
 
 async function Page({ params: { slug } }: { params: { slug: string } }) {
   const user = await prisma.user.findUnique({
@@ -59,11 +61,11 @@ async function Page({ params: { slug } }: { params: { slug: string } }) {
                 followedBy={currentUser.id}
               />
             ) : (
-              <FollowButton
-                mode="follow"
-                following={user.id}
-                followedBy={currentUser.id}
-              />
+              <form action={addFollowing}>
+                <input type="hidden" name="following" value={user.id} />
+                <input type="hidden" name="followedBy" value={user.id} />
+                <SubmitButton intent="primary">Follow</SubmitButton>
+              </form>
             )}
           </div>
         </div>
