@@ -63,7 +63,7 @@ async function Page({ params: { slug } }: { params: { slug: string } }) {
             ) : (
               <form action={addFollowing}>
                 <input type="hidden" name="following" value={user.id} />
-                <input type="hidden" name="followedBy" value={user.id} />
+                <input type="hidden" name="followedBy" value={currentUser.id} />
                 <SubmitButton intent="primary">Follow</SubmitButton>
               </form>
             )}
