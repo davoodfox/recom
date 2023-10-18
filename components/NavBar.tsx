@@ -14,18 +14,19 @@ async function NavBar(props: Props) {
 
   return (
     <nav className=" text-black font-semibold p-2">
-      <div className="flex justify-between items-center">
-        <ul className="flex gap-2 items-center">
-          <Image
-            priority
-            src={Icon}
-            alt=""
-            width={100}
-            height={100}
-            className="mr-2"
-          />
+      <div className="flex gap-1 justify-between items-center">
+        <ul className="flex gap-1 sm:gap-4 items-center text-xs sm:text-base">
           <li>
-            <Link href="/">Home</Link>
+            <Link href="/">
+              <Image
+                priority
+                src={Icon}
+                alt=""
+                width={60}
+                height={60}
+                className=""
+              />
+            </Link>
           </li>
           <li>
             <Link href="/recommend">Recommend</Link>
@@ -39,7 +40,7 @@ async function NavBar(props: Props) {
             </li>
           </SignedIn>
         </ul>
-        <div className="mx-6 ">
+        <div className="">
           <UserButton
             afterSignOutUrl="/"
             userProfileMode="navigation"
@@ -54,8 +55,8 @@ async function NavBar(props: Props) {
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center center",
-                  width: "50px",
-                  height: "50px",
+                  width: "40px",
+                  height: "40px",
                 },
               },
             }}

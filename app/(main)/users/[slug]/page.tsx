@@ -45,7 +45,7 @@ async function Page({ params: { slug } }: { params: { slug: string } }) {
             className="overflow-hidden sm:rounded-ss-3xl sm:rounded-es-3xl"
           />
 
-          <div className="py-4 sm:p-4 flex justify-between items-center flex-grow">
+          <div className="py-4 sm:p-4 flex flex-col gap-4 sm:flex-row justify-between items-center flex-grow">
             <div>
               <h2 className="text-2xl">{user.username}</h2>
               <span className="text-gray-400">

@@ -31,6 +31,9 @@ function Page() {
                 profilePage__security: {
                   display: "none",
                 },
+                navbarMobileMenuButton: {
+                  display: "none",
+                },
               },
             }}
           />

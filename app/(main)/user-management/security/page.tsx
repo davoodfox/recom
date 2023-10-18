@@ -22,8 +22,10 @@ function Page() {
                 navbar: {
                   display: "none",
                 },
-
                 profilePage__account: {
+                  display: "none",
+                },
+                navbarMobileMenuButton: {
                   display: "none",
                 },
               },

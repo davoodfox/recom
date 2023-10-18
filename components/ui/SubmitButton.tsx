@@ -1,7 +1,7 @@
 "use client";
 import { experimental_useFormStatus as useFormStatus } from "react-dom";
 import { Button, ButtonProps } from "./Button";
-import { Oval, TailSpin } from "react-loader-spinner";
+import { Oval } from "react-loader-spinner";
 interface Props extends ButtonProps {
   loading?: boolean;
   disabled?: boolean;

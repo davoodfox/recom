@@ -13,9 +13,9 @@ export default async function Home() {
       className="mx-auto  h-full w-full flex items-center justify-center text-center"
     >
       <div className="w-full max-w-screen-xl px-2.5 md:px-20 pb-28 pt-28 flex flex-col gap-8 items-center justify-center text-center sm:pt-40">
-        <h1 className="font-bold text-5xl md:text-4xl lg:text-7xl">
+        <h1 className="font-bold text-xl md:text-4xl lg:text-7xl">
           <span
-            className="text-6xl lg:text-8xl
+            className="text-3xl md:text-5xl  lg:text-8xl
            text-brand-600"
           >
             RECOM
