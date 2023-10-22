@@ -1,7 +1,6 @@
 "use server";
 import { prisma } from "@/utils/db";
 import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function createRecommendation(formData: FormData) {
@@ -29,15 +28,15 @@ export async function createRecommendation(formData: FormData) {
       data: data,
     });
     revalidatePath("/dashboard");
-    return NextResponse.json({
+    return {
       message: "Created new recommendation",
       success: true,
-    });
+    };
   } catch (err) {
-    return NextResponse.json({
+    return {
       error: "Failed to create recommendation': " + err,
       status: 400,
-    });
+    };
   }
 }
 
@@ -53,11 +52,11 @@ export async function deleteRecommendation(formData: FormData) {
   try {
     await prisma.recommendation.delete({ where: { id: data.id } });
     revalidatePath("/dashboard");
-    return NextResponse.json({ message: "Deleted recommendation" });
+    return { message: "Deleted recommendation" };
   } catch (err) {
-    return NextResponse.json({
+    return {
       error: "Failed to delete recommendation': " + err,
       status: 400,
-    });
+    };
   }
 }

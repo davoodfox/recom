@@ -1,5 +1,3 @@
-import { prisma } from "@/utils/db";
-import { auth } from "@clerk/nextjs";
 import DashboardTabs from "./_components/DashboardTabs";
 
 export default async function name() {

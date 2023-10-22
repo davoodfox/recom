@@ -1,7 +1,6 @@
 "use server";
 import { prisma } from "@/utils/db";
 import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function addFollowing(formData: FormData) {
@@ -28,15 +27,15 @@ export async function addFollowing(formData: FormData) {
 
     revalidatePath("/users/[slug]");
 
-    return NextResponse.json({
+    return {
       message: "Following added.",
       success: true,
-    });
+    };
   } catch (err) {
-    return NextResponse.json({
+    return {
       error: "Failed to add following': " + err,
       status: 400,
-    });
+    };
   }
 }
 
@@ -61,10 +60,10 @@ export async function removeFollowing(formData: FormData) {
     });
 
     if (!followingUser || !followedByUser) {
-      return NextResponse.json({
+      return {
         error: "Failed to remove following: ",
         status: 400,
-      });
+      };
     }
 
     const followedByIDs = followingUser.followedByIDs.filter(
@@ -85,14 +84,14 @@ export async function removeFollowing(formData: FormData) {
 
     revalidatePath("/users/[slug]");
 
-    return NextResponse.json({
+    return {
       message: "Following removed.",
       success: true,
-    });
+    };
   } catch (err) {
-    return NextResponse.json({
+    return {
       error: "Failed to remove following: " + err,
       status: 400,
-    });
+    };
   }
 }

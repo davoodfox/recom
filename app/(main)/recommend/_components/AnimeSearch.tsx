@@ -6,7 +6,7 @@ import { object, string } from "zod";
 import { Form, useZodForm } from "@ui/Form";
 import { Input } from "@/components/ui/Input";
 import AnimeSearchResults from "@/components/AnimeSearchResults";
-import { Loader } from "@/components/AnimeBox";
+import Loader from "@/components/AnimeBoxLoader";
 
 const InputsSchema = object({
   query: string(),

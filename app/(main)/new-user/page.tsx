@@ -1,6 +1,5 @@
 import { prisma } from "@/utils/db";
 import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
 
 async function createNewUser() {
   const user = await currentUser();

@@ -1,5 +1,5 @@
 import { prisma } from "@/utils/db";
-import { Recommendation, User } from "@prisma/client";
+import { Recommendation } from "@prisma/client";
 import Link from "next/link";
 import RecommendationActions from "./RecommendationActions";
 

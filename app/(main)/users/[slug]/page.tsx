@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { prisma } from "@/utils/db";
 import { currentUser as getCurrentUser } from "@clerk/nextjs";
-import FollowButton from "@/components/buttons/FollowButton";
 import { addFollowing, removeFollowing } from "@/actions/user";
 import { SubmitButton } from "@/components/ui/SubmitButton";
 
