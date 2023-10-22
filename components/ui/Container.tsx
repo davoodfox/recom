@@ -9,7 +9,7 @@ interface Props {
 export function Container({ title, action, children }: Props) {
   return (
     <>
-      <div className="sm:my-8 w-full sm:max-w-lg mx-auto sm:rounded-xl shadow-lg bg-white dark:bg-gray-800 p-6">
+      <div className="sm:my-8 w-full sm:max-w-xl mx-auto sm:rounded-xl shadow-lg bg-white dark:bg-gray-800 p-6">
         {(title || action) && (
           <div className="flex items-center justify-between mb-4">
             {title && (

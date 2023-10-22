@@ -1,6 +1,4 @@
-import RedirectButton from "@/components/buttons/RedirectButton";
 import { Text } from "@/components/ui/Text";
-import { UserProfile } from "@clerk/nextjs";
 import Link from "next/link";
 
 function Page() {

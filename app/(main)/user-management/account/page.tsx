@@ -1,4 +1,4 @@
-import RedirectButton from "@/components/buttons/RedirectButton";
+import RedirectButton from "./_components/RedirectButton";
 import { UserProfile } from "@clerk/nextjs";
 
 function Page() {

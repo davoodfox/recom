@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button";
 
 export default function RedirectButton() {
   const router = useRouter();

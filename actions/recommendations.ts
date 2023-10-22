@@ -4,23 +4,17 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export async function createRecommendation(formData: FormData) {
-  const animeId = formData.get("animeId");
-  const fromUsername = formData.get("fromUsername");
-  const toUsername = formData.get("toUsername");
-  const note = formData.get("note");
-
   const schema = z.object({
     animeId: z.string().nonempty(),
     fromUsername: z.string().nonempty(),
     toUsername: z.string().nonempty(),
     note: z.string(),
   });
-
   const data = schema.parse({
-    animeId: animeId,
-    fromUsername: fromUsername,
-    toUsername: toUsername,
-    note: note,
+    animeId: formData.get("animeId"),
+    fromUsername: formData.get("fromUsername"),
+    toUsername: formData.get("toUsername"),
+    note: formData.get("note"),
   });
 
   try {
@@ -44,7 +38,6 @@ export async function deleteRecommendation(formData: FormData) {
   const schema = z.object({
     id: z.string().nonempty(),
   });
-
   const data = schema.parse({
     id: formData.get("id"),
   });

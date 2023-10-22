@@ -4,15 +4,13 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export async function addFollowing(formData: FormData) {
-  const following = formData.get("following");
-  const followedBy = formData.get("followedBy");
   const schema = z.object({
     following: z.string().nonempty(),
     followedBy: z.string().nonempty(),
   });
   const data = schema.parse({
-    following: following,
-    followedBy: followedBy,
+    following: formData.get("following"),
+    followedBy: formData.get("followedBy"),
   });
 
   try {
@@ -24,9 +22,7 @@ export async function addFollowing(formData: FormData) {
       where: { id: data.following },
       data: { followedByIDs: { push: data.followedBy } },
     });
-
     revalidatePath("/users/[slug]");
-
     return {
       message: "Following added.",
       success: true,
@@ -40,15 +36,13 @@ export async function addFollowing(formData: FormData) {
 }
 
 export async function removeFollowing(formData: FormData) {
-  const following = formData.get("following");
-  const followedBy = formData.get("followedBy");
   const schema = z.object({
     following: z.string().nonempty(),
     followedBy: z.string().nonempty(),
   });
   const data = schema.parse({
-    following: following,
-    followedBy: followedBy,
+    following: formData.get("following"),
+    followedBy: formData.get("followedBy"),
   });
 
   try {
@@ -58,21 +52,18 @@ export async function removeFollowing(formData: FormData) {
     const followedByUser = await prisma.user.findUnique({
       where: { id: data.followedBy },
     });
-
     if (!followingUser || !followedByUser) {
       return {
         error: "Failed to remove following: ",
         status: 400,
       };
     }
-
     const followedByIDs = followingUser.followedByIDs.filter(
       (id) => id != data.followedBy
     );
     const followingIDs = followedByUser.followingIDs.filter(
       (id) => id != data.following
     );
-
     await prisma.user.update({
       where: { id: data.following },
       data: { followedByIDs: followedByIDs },
@@ -81,9 +72,7 @@ export async function removeFollowing(formData: FormData) {
       where: { id: data.followedBy },
       data: { followingIDs: followingIDs },
     });
-
     revalidatePath("/users/[slug]");
-
     return {
       message: "Following removed.",
       success: true,

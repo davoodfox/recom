@@ -1,36 +1,25 @@
 "use server";
-import { prisma } from "@/utils/db";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { AnimeClient } from "@tutkli/jikan-ts";
 const animeClient = new AnimeClient();
 
 export async function getJikanAnimeSearch(formData: FormData) {
-  console.log("_________________________________----------------");
-  const query = formData.get("query") as string;
-
-  console.log(query);
-
   const schema = z.object({
     query: z.string().nonempty(),
   });
-
   const data = schema.parse({
-    query: query,
+    query: formData.get("query"),
   });
 
-  console.log(data);
-  console.log(data.query);
   try {
-    const anime = await animeClient.getAnimeSearch({
+    const result = await animeClient.getAnimeSearch({
       q: data.query,
       limit: 25,
     });
-    console.log(anime);
     return {
       message: "Received jikan anime seatch",
       success: true,
-      data: anime.data,
+      data: result.data,
     };
   } catch (err) {
     return {

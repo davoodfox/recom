@@ -5,11 +5,13 @@ import { Oval } from "react-loader-spinner";
 interface Props extends ButtonProps {
   loading?: boolean;
   disabled?: boolean;
+  wide?: boolean;
 }
 
 export function SubmitButton({
   loading = false,
   disabled = false,
+  wide = false,
   children,
   ...props
 }: Props) {
@@ -19,7 +21,7 @@ export function SubmitButton({
     <Button
       type="submit"
       disabled={loading || disabled || pending}
-      className="px-10 sm:px-16 relative"
+      className={` relative ${wide && "px-10 sm:px-16 min-w-[210px]"}`}
       {...props}
     >
       {
@@ -31,11 +33,11 @@ export function SubmitButton({
           strokeWidth={4}
           strokeWidthSecondary={4}
           wrapperStyle={{}}
-          wrapperClass="absolute left-2"
+          wrapperClass={wide ? `absolute left-2` : ``}
           visible={pending}
         />
       }
-      {children}
+      {pending && !wide ? "" : children}
     </Button>
   );
 }

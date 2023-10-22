@@ -1,11 +1,8 @@
 "use server";
 import { prisma } from "@/utils/db";
-import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 export async function createAnime(formData: FormData) {
-  const form = JSON.parse(formData.get("data") as string);
-
   const schema = z.object({
     title: z.string().nonempty(),
     imageUrl: z.string().nonempty(),
@@ -15,35 +12,21 @@ export async function createAnime(formData: FormData) {
     malUrl: z.string().nonempty(),
     malId: z.number(),
   });
-
-  const data = schema.parse({
-    title: form.title,
-    imageUrl: form.imageUrl,
-    synopsis: form.synopsis,
-    airing: form.airing,
-    year: form.year,
-    malUrl: form.malUrl,
-    malId: form.malId,
-  });
+  // Since we receive all of the fields in one FormData value as a string, we need to parse it's value to match the schema.
+  type Schema = z.infer<typeof schema>;
+  const form: Schema = JSON.parse(formData.get("data") as string);
+  const data = schema.parse(form);
 
   try {
-    const anime = await prisma.anime.upsert({
-      create: {
-        airing: data.airing,
-        imageUrl: data.imageUrl,
-        malId: data.malId,
-        malUrl: data.malUrl,
-        synopsis: data.synopsis,
-        title: data.title,
-        year: data.year,
-      },
+    const result = await prisma.anime.upsert({
+      create: data,
       update: {},
       where: { malId: data.malId },
     });
     return {
       message: "Created new anime",
       success: true,
-      data: anime,
+      data: result,
     };
   } catch (err) {
     return {
