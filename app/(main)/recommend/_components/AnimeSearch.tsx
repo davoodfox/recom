@@ -1,5 +1,5 @@
 "use client";
-import { getAnimeSeach } from "@/services";
+import { getJikanAnimeSearch } from "@/actions/jikan";
 import useFetch from "@/hooks/useFetch";
 import { Anime } from "@tutkli/jikan-ts";
 import { object, string } from "zod";
@@ -16,7 +16,7 @@ function AnimeSearch() {
   const form = useZodForm({
     schema: InputsSchema,
   });
-  const animeFetch = useFetch(getAnimeSeach);
+  const animeFetch = useFetch(getJikanAnimeSearch);
   const anime: Anime[] | null = animeFetch.data;
   const { state, send } = animeFetch;
 
@@ -25,7 +25,9 @@ function AnimeSearch() {
       <Form
         form={form}
         onSubmit={async ({ query }) => {
-          send({ type: "FETCH", payload: query });
+          const formData = new FormData();
+          formData.append("query", JSON.stringify(query));
+          send({ type: "FETCH", payload: formData });
         }}
       >
         <Input
